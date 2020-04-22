@@ -1,1 +1,142 @@
-# 每周总结可以写在这里
+# 第二周总结
+
+### 编程语言通识
+
+  - 语言按语法分类
+    - 非形式语言
+        - 中文
+        - 英文
+    - 形式语言 乔姆斯基谱系
+        - 0型 无限制文法
+        - 1型 上下文相关文法
+        - 2型 上下文无关文法
+        - 3型 正则文法
+
+  - 形式语言产生式
+    - BNF
+    - EBNF
+    - ABNF
+  - 图灵完备性
+    - 命令式 - 图灵机
+        - goto
+        - if/while
+    - 声明式 - lambda
+        - 递归
+  - 动态与静态
+    - 动态
+        - 在用户的设备/在线服务器上运行
+        - 产品实际运行时
+        - Runtime
+    - 静态
+        - 在程序员的设备上
+        - 产品开发时
+        - Compiletime
+  - 类型系统
+    - 按动静划分
+        - 动态类型系统
+        - 静态类型系统
+    - 按是否隐式转换划分
+        - 强类型
+        - 弱类型
+    - 按复合类型划分
+        - 结构体
+        - 函数签名
+    - 加入继承后
+        - 逆变
+        - 协变
+
+  - 一般命令式编程语言
+    - Atom
+        - Identifier
+        - Literal
+    - Expression
+        - Atom
+        - Operator
+        - Punctuator
+    - Statement
+        - Expression
+        - Keyworkd
+        - Punctuator
+    - Structure
+        - Function
+        - Class
+        - Process
+        - Namespace
+    - Program
+        - Program
+        - Module
+        - Package
+        - Library
+  - 重学JavaScript
+    - 语法
+    - 语义
+    - 运行时
+  - 课后答疑
+    - 什么是左结合和右结合
+    - 推荐书籍
+        - 红宝书
+    - 能否提前给预习内容
+        - 使用重学前端预习
+    - ECMA-262 中 await async 代表什么意思
+
+### JavaScript 词法、类型
+
+  - 预备知识：
+    - [unicode](https://www.fileformat.info/info/unicode/) 字符集
+        - 码点
+            - a 97
+            - A 65
+    - [Blocks](https://www.fileformat.info/info/unicode/block/index.htm) 编码组
+        - 0 ~ U+007F：常用拉丁字符
+        - `String.fromCharCode(num)`
+        - U+4E00 ~ U+9FFF：CJK ChineseJapaneseKorean三合一
+        - 有一些增补区域（extension）
+        -  U+0000 - U+FFFF：[BMP](https://zh.wikipedia.org/wiki/Unicode字符平面映射) 基本平面
+    - [Categories](https://www.fileformat.info/info/unicode/category/index.htm)
+        - [space空格系列](https://www.fileformat.info/info/unicode/category/Zs/list.htm)
+    - javascript 如何处理 emoji 字符
+    - 为什么不要用中文做变量名, 如何更安全使用中文作为变量名
+    - "厉".codePointAt(0).toString(16)
+
+    - InputElement
+      - WhiteSpace
+          - <Tab> 制表符
+          - <VT>
+          - <FF>
+          - <SP> 普通空格
+          - <NBSP> NO BREAK SPACE
+          - <ZWNBSP> Zero WIDTH NO BREAK SPACE
+          - <USP>
+      - LineTerminator
+          - LF \n
+          - CR
+      - Comment
+      - Token
+          - Punctuator
+              - 符号
+                  - 括号 等号
+          - IdentifierName
+              - Keywords
+              - Identifier （标识符）
+                  - 变量名
+                  - 属性名
+              - Future reserved Keywords
+          - Literal
+              - 直接量
+                  - 123 true false
+
+  - Type
+    - Number: IEEE 754 Double Float
+      - 浮点数比较: Math.abs(0.1 + 0.2 - 0.3) < Number.EPSILON
+      - `97 .toString(2)`
+    - String
+      - USC: U+0000 ~ U+FFFF, unicode 的 BMP 范围
+      - GB: 国标
+      - 存储方式: UTF8/UTF16
+        - UTF8 使用 8 位存储
+        - UTF16 使用 18 位存储
+      - 引号内的特殊字符 `\'"bfnrtv`
+    - Boolean
+    - Null
+    - Undifined
+    - Symbol
