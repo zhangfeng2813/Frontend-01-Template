@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>matches</title>
+  <style>
+    [data-name=jeff] {
+      color: red;
+    }
+    body > div div + span#id {
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div id="id" class="class">1231</div>
+  </div>
+  <section>
+    <div class="box">
+      <span id="text">文本</span>
+    </div>
+  </section>
+  <section>
+    <div id="attr-el" data-name="jeff" data-age="22">data-name</div>
+  </section>
+  <div>
+    <div></div>
+    <span id="id">紧接在div的兄弟节点</span>
+  </div>
+
+  <script src="./matches.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .container {
+      width: 200px;
+      height: 200px;
+      background: grey;
+      overflow: scroll;
+
+    }
+
+    .background {
+      width: 400px;
+      height: 400px;
+      background-image: url(../iamge.jpg);
+      background-attachment: scroll;
+      background-repeat: no-repeat;
+    }
+
+    footer {
+      color: red;
+    }
+
+    @media print {
+      footer {
+        break-after: page;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="background">background</div>
+  </div>
+  <article>
+    <header>
+      <h1>title</h1>
+    </header>
+    <div>content</div>
+    <footer>footer</footer>
+
+  </article>
+  <article>
+    <header>
+      <h1>title</h1>
+    </header>
+    <div>content</div>
+    <footer>footer</footer>
+
+  </article>
+  <article>
+    <header>
+      <h1>title</h1>
+    </header>
+    <div>content</div>
+    <footer>footer</footer>
+
+  </article>
+</body>
+
+</html>

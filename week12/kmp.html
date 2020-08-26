@@ -1,0 +1,81 @@
+<script>
+  // kmp匹配字符串
+  // O(n + m)
+  function find(source, pattern) {
+    const next = genNext(pattern);
+    console.log("find -> next", next);
+
+    let i = 0,
+      j = 0;
+
+    while (i < source.length && j < pattern.length) {
+      if (j === -1 || source[i] === pattern[j]) {
+        i++;
+        j++;
+      } else {
+        j = next[j];
+      }
+    }
+
+    return j === pattern.length;
+  }
+
+  function genNext(pattern) {
+    const next = [];
+
+    next[0] = -1;
+
+    let l = 0,
+      s = -1;
+
+    while (l < pattern.length - 1) {
+      if (s === -1 || pattern[l] === pattern[s]) {
+        l++;
+        s++;
+        next[l] = pattern[l] !== pattern[s] ? s : next[s];
+      } else {
+        s = next[s];
+      }
+    }
+
+    return next;
+  }
+
+  //   function find(source, pattern) {
+  //     let table = new Array(pattern.length).fill(0);
+
+  //     let k = 0;
+  //     for (let j = 0; j < pattern.length; j++) {
+  //       if (pattern[j] === pattern[k]) {
+  //         k++;
+  //       } else {
+  //         k = 0;
+  //       }
+  //       table[j] = k;
+  //     }
+
+  //     let j = 0;
+  //     for (let i = 0; i < source.length; i++) {
+  //       if (source[i] === pattern[j]) {
+  //         j++;
+  //       } else {
+  //         // 当不匹配时，回到pattern[0]重新开始匹配
+  //         // j = 0;
+
+  //         j = table[j];
+
+  //         if (source[i] === pattern[j]) {
+  //           j++;
+  //         } else {
+  //           j = 0;
+  //         }
+  //       }
+
+  //       if (j === pattern.length) {
+  //         return true;
+  //       }
+  //     }
+
+  //     return false;
+  //   }
+</script>

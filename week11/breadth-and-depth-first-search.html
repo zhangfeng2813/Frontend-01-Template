@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>寻路</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .cell {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background-color: gray;
+        border-bottom: solid 1px white;
+        border-right: solid 1px white;
+        vertical-align: middle;
+      }
+
+      #container {
+        font-size: 0;
+        width: 701px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <button onclick="localStorage.map = JSON.stringify(map)">save</button>
+    <br />
+    start:
+    <br />
+    x: <input value="0" /> y: <input value="0" />
+    <br />
+    end:
+    <br />
+    x: <input value="50" /> y: <input value="50" />
+    <button onclick="run()">搜索搜索</button>
+
+    <script>
+      /**
+       * 1. 生成 1000 * 1000 的一维数组
+       **/
+
+      // const map = new Array(10001).join(0).split('');
+      var map = localStorage.map
+        ? JSON.parse(localStorage.map)
+        : new Array(10000).fill(0);
+
+      const container = document.querySelector("#container");
+
+      for (let y = 0; y < 100; y++) {
+        for (let x = 0; x < 100; x++) {
+          let cell = document.createElement("div");
+          cell.classList.add("cell");
+
+          if (map[y * 100 + x] === 1) cell.style.backgroundColor = "black";
+
+          cell.addEventListener("mouseover", () => {
+            if (mouse) {
+              if (clear) {
+                cell.style.backgroundColor = "";
+                map[y * 100 + x] = 0;
+              } else {
+                cell.style.backgroundColor = "black";
+                map[y * 100 + x] = 1;
+              }
+            }
+          });
+
+          container.appendChild(cell);
+        }
+      }
+
+      /**
+       * 2. 绘制
+       **/
+      // 是否点击了鼠标
+      let mouse = false;
+      // 是否点击了右键
+      let clear = false;
+
+      document.addEventListener("mousedown", (e) => {
+        mouse = true;
+        clear = e.button === 2;
+      });
+      document.addEventListener("mouseup", () => (mouse = false));
+
+      document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+      const sleep = (delay) =>
+        new Promise((resolve) => {
+          setTimeout(resolve, delay);
+        });
+
+      /*
+       * 优化的方式即修数据结构
+       * 广度优先搜索，使用queue，先进先出
+       * 深度优先搜索：使用stack，后进先出
+       * A Star搜索（启发函数）：每次突出最小的点
+       * 动态规划
+       **/
+
+      /**
+       * 实现路径，
+       * 每次insert的时候都记录前一个点
+       **/
+
+      /**
+       * map: 一维数组
+       * start：开始的 [x, y]
+       * end：结束的 [x, y]
+       **/
+      async function findPath(map, start, end) {
+        // 避免污染
+        map = map.slice();
+        // 广度优先搜索
+        let queue = [start];
+        // 深度优先搜索
+        // let stask = [start];
+
+        async function insert([x, y], pre) {
+          // 边界处理
+          if (map[100 * y + x] !== 0) return;
+          if (x < 0 || y < 0 || x > 100 || y > 100) return;
+
+          // 解决重复访问, 记录上一个点同时也避免重新执行
+          map[100 * y + x] = pre;
+
+          container.children[100 * y + x].style.backgroundColor = "lightgreen";
+          await sleep(5);
+
+          queue.push([x, y]);
+        }
+
+        while (queue.length) {
+          // 数组队列方法 pop, unshift | push, shift
+          let [x, y] = queue.shift(); // dequeue
+          // 深度优先搜索
+          // let [x, y] = stask.pop();
+          // 当找到end的[x,y]点表示结束
+          if (x === end[0] && y === end[1]) {
+            // 找出路径
+            let path = [];
+            while (x !== start[0] || y !== start[1]) {
+              await sleep(5);
+              container.children[100 * y + x].style.backgroundColor = "pink";
+              [x, y] = map[100 * y + x];
+              path.push([x, y]);
+            }
+            return path;
+          }
+
+          // 如果还没找到结束点，则添加当前的点的八个方向
+          await insert([x - 1, y], [x, y]);
+          await insert([x + 1, y], [x, y]);
+          await insert([x, y - 1], [x, y]);
+          await insert([x, y + 1], [x, y]);
+
+          await insert([x - 1, y - 1], [x, y]);
+          await insert([x + 1, y + 1], [x, y]);
+          await insert([x + 1, y - 1], [x, y]);
+          await insert([x - 1, y + 1], [x, y]);
+        }
+
+        return null;
+      }
+
+      function run() {
+        const inputs = document.querySelectorAll("input");
+        const start = [Number(inputs[0].value), Number(inputs[1].value)];
+        const end = [Number(inputs[2].value), Number(inputs[3].value)];
+        findPath(map, start, end);
+      }
+    </script>
+  </body>
+</html>

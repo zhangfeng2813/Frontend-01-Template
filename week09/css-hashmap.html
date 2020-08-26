@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>css attrbutes</title>
+</head>
+
+<body>
+  <script>
+    const styles = getComputedStyle(document.body);
+    const styleMap = {}
+    for (let key in styles) {
+      if (!key.match(/^(?:[0-9]+)$|^(?:webkit)/)) {
+        const toCrossKey = key.replace(/([A-Z])/g, (word) => `-${word.toLocaleLowerCase()}`)
+        const prefixKey = toCrossKey.match(/([a-z]+)(?=[-])/)
+        if (prefixKey && styleMap[prefixKey[1]]) {
+          const originValue = styleMap[prefixKey[1]];
+          if (Object.prototype.toString.call(originValue) !== '[object Object]') {
+            styleMap[prefixKey[1]] = {
+              [prefixKey[1]]: originValue
+            }
+          }
+          styleMap[prefixKey[1]][toCrossKey] = styles.getPropertyValue(toCrossKey);
+        } else {
+          styleMap[toCrossKey] = styles.getPropertyValue(toCrossKey)
+        }
+      }
+    }
+
+    const finishAttributes = [
+      'align-content', 'align-items', 'align-self', 'alignment-baseline', 'all', 'animation', 'backdrop-filter', 'backface-visibility', 'background',
+      'baseline-shift', 'block-size', 'border', 'bottom', 'block-size', 'writing-mode', 'box-shadow', 'box-sizing', 'color', 'break-after', 'break-before', 'page-break-after', 'caption-side',
+      'buffered-rendering', 'break-inside', 'caret-color', 'clear', 'column-count', 'column-fill', 'column-gap', 'column-rule', 'column-rule-color', 'column-rule-style', 'column-rule-width',
+      'column-span', 'column-width', 'columns', 'clip', 'contain', 'content', 'counter-increment', 'counter-reset', 'css-float', 'css-text', 'cursor', 'cx', 'cy', 'd', 'direction', 'display',
+      'dominant-baseline', 'empty-cells', 'fill', 'fill-opacity', 'fill-rule', 'filter', 'flex', 'float', 'flood-color', 'flood-opacity', 'font', 'gap', 'get-property-priority', 'get-property-value',
+      'grid', 'height', 'hyphens', 'image-orientation', 'image-rendering', 'inline-size', 'isolation', 'mix-blend-mode', 'item', 'length', 'left', 'top', 'right', 'justify-content', 'justify-items',
+      'justify-self', 'letter-spacing', 'lighting-color', 'line-height', 'list-style', 'list-style-image', 'list-style-position', 'list-style-type', 'line-break', 'margin', 'marker', 'mask',
+      'max-block-size', 'max-height', 'max-width', 'max-inline-size', 'width', 'max-zoom', 'min-block-size', 'min-height', 'min-width', 'min-inline-size', 'min-zoom', 'outline', 'offset', 'object-fit',
+      'object-position', 'opacity', 'order', 'orphans', 'orientation', 'overflow', 'overscroll-behavior', 'overscroll-behavior-x', 'overscroll-behavior-y', 'overscroll-behavior-inline', 'overscroll-behavior-block',
+      'padding', 'page-break-before', 'page-break-inside', 'paint-order', 'rx', 'ry', 'r', 'transition', 'transform', 'x', 'y', 'parent-rule', 'perspective', 'place-content', 'place-items', 'place-self',
+      'pointer-events', 'position', 'remove-property', 'quotes', 'row-gap', 'resize', 'scroll-behavior', 'scroll-margin',
+      'scroll-margin-block',
+      'scroll-margin-block-end',
+      'scroll-margin-block-start',
+      'scroll-margin-bottom',
+      'scroll-margin-inline',
+      'scroll-margin-inline-end',
+      'scroll-margin-inline-start',
+      'scroll-margin-left',
+      'scroll-margin-right',
+      'scroll-margin-top',
+      'scroll-padding',
+      'scroll-padding-block',
+      'scroll-padding-block-end',
+      'scroll-padding-block-start',
+      'scroll-padding-bottom',
+      'scroll-padding-inline',
+      'scroll-padding-inline-end',
+      'scroll-padding-inline-start',
+      'scroll-padding-left',
+      'scroll-padding-right',
+      'scroll-padding-top',
+      'scroll-snap-align',
+      'scroll-snap-stop',
+      'scroll-snap-type',
+      'stroke', 'size',
+      'set-property', 'src',
+      'shape-image-threshold',
+      'shape-margin',
+      'shape-outside',
+      'shape-rendering',
+      'stop-opacity', 'stop-color',
+      'speak', 'tab-size', 'table-layout', 'text-align', 'text-align-last', 'text-anchor', 'text-combine-upright',
+      'text-decoration',
+      'text-decoration-color',
+      'text-decoration-line',
+      'text-decoration-skip-ink',
+      'text-decoration-style',
+      'text-indent', 'text-orientation', 'text-overflow', 'text-rendering', 'text-shadow', 'text-size-adjust', 'text-transform', 'text-underline-position', 'touch-action',
+      'unicode-bidi', 'unicode-range', 'user-select', 'user-zoom', 'vector-effect', 'vertical-align', 'visibility', 'white-space', 'widows', 'will-change', 'word-break',
+      'word-spacing', 'word-wrap', 'zoom', 'z-index'
+    ]
+
+    finishAttributes.forEach(key => delete styleMap[key])
+
+    console.log("styles", styleMap)
+  </script>
+</body>
+
+</html>
